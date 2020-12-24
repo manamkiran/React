@@ -13,30 +13,32 @@ function Square(props) {
 class Board extends React.Component {
   renderSquare(i) {
     return (
-      <Square value={this.props.squares[i]} onClick={() => this.props.onClick(i)} />
+      <Square
+        key={i}
+        value={this.props.squares[i]}
+        onClick={() => this.props.onClick(i)}
+      />
     );
   }
 
-  render() {
+  renderRow(rowNumber) {
+    let cols = [];
+    for (var i = 0; i < 3; i++) {
+      cols.push(this.renderSquare(rowNumber * 3 + i));
+    }
     return (
-      <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+      <div key={rowNumber} className="board-row">
+        {cols}
       </div>
     );
+  }
+  
+  render() {
+    let rows = [];
+    for (var i = 0; i < 3; i++) {
+      rows.push(this.renderRow(i));
+    }
+    return <div>{rows}</div>;
   }
 }
 
@@ -57,6 +59,7 @@ class Game extends React.Component {
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
+
     squares[i] = this.state.xIsNext ? "X" : "O";
     this.setState({
       history: history.concat([
@@ -83,8 +86,6 @@ class Game extends React.Component {
 
     const moves = history.map((step, move) => {
       const desc = move ? "Go to move #" + move : "Go to game start";
-      console.log(step);
-      console.log(move);
       return (
         <li key={move}>
           <button onClick={() => this.jumpTo(move)}>{desc}</button>
@@ -92,9 +93,12 @@ class Game extends React.Component {
       );
     });
 
-    const status = winner
-      ? "Winner is " + winner
-      : "Next player: " + (this.state.xIsNext ? "X" : "O");
+    const status =
+      this.state.stepNumber === 9
+        ? "Game is a draw"
+        : winner
+        ? "Winner is " + winner
+        : "Next player: " + (this.state.xIsNext ? "X" : "O");
 
     return (
       <div className="game">
