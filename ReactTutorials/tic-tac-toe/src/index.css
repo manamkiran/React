@@ -17,6 +17,10 @@ body {
     margin-bottom: 10px;
   }
   
+  .winner.square{
+    background: green;
+  }
+
   .square {
     background: #fff;
     border: 1px solid #999;
@@ -49,3 +53,7 @@ body {
     margin-left: 20px;
   }
   
+  .selected{
+    border: 1px solid #888;
+    background-color: green;
+  }
