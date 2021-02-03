@@ -31,7 +31,7 @@
     }
   }
 
-  .custom-button {
+  button {
     width: 80%;
     opacity: 0.85;
     position: absolute;
@@ -39,12 +39,12 @@
     display: none;
   }
 
-  &:hover{
-    .image{
+  &:hover {
+    .image {
       opacity: 0.8;
     }
 
-    .custom-button{
+    button {
       display: flex;
     }
   }
